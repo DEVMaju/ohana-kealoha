@@ -90,7 +90,7 @@ main{background:#f7ecd0e8;border:3px double var(--deep);border-radius:16px;margi
 .mem .ph img{filter:grayscale(.75) sepia(.3)}.mem{background:#ece6d8}
 .prev{width:120px;height:120px;margin:0 auto}
 fieldset{border:2px solid var(--deep);border-radius:10px;padding:10px}legend{font-family:Cinzel,serif;color:var(--deep);padding:0 6px}
-.rr{display:flex;gap:6px;margin-bottom:6px}.rr .x{margin:0;padding:4px 12px}
+.rr{display:flex;gap:6px;margin-bottom:6px;align-items:center}.rr .x{margin:0;padding:4px 12px}.rr .dh{cursor:grab!important;touch-action:none;user-select:none;padding:4px 8px;font-size:18px;line-height:1;opacity:.7;border-radius:6px}.rr .dh:hover,.rr .dh:focus-visible{opacity:1;background:rgba(0,0,0,.08)}.rr.dg{opacity:.85;box-shadow:0 4px 14px rgba(0,0,0,.25);background:rgba(255,255,255,.6);border-radius:8px}.rr.dg .dh{cursor:grabbing!important}
 .node.hl{outline:4px solid var(--coral)}.node.rl{outline:4px dashed var(--sea)}
 #ac{display:flex;gap:8px;align-items:center;font-family:Cinzel,serif;color:var(--deep);font-size:.85rem}#ac button{margin:0;padding:6px 14px}
 #tip{position:fixed;left:-1px;top:-1px;pointer-events:none;z-index:301;opacity:0}
