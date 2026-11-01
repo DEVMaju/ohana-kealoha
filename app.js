@@ -10,19 +10,19 @@ const H=()=>SITE?.hist??HIST,SG=()=>SITE?.signif??SIGNIF,IN=()=>{const o={...DEF
 // ===== Dados =====
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const REL=['pai','mãe','filho','filha','neto','neta','bisneto','bisneta','avô','avó','bisavô','bisavó','tio','tia','sobrinho','sobrinha','irmão','irmã','primo','prima','marido','esposa'];
-const LB={pai:'Pai',mãe:'Mãe',filho:'Filho',filha:'Filha',neto:'Neto',neta:'Neta',avô:'Avô',avó:'Avó',bisavô:'Bisavô',bisavó:'Bisavó',tio:'Tio',tia:'Tia',sobrinho:'Sobrinho',sobrinha:'Sobrinha',irmão:'Irmão',irmã:'Irmã',primo:'Primo',prima:'Prima',marido:'Marido',esposa:'Esposa',bisneto:'Bisneto',bisneta:'Bisneta'};
-const INV={pai:'Filho(a)',mãe:'Filho(a)',filho:'Pai/Mãe',filha:'Pai/Mãe',neto:'Avô/Avó',neta:'Avô/Avó',avô:'Neto(a)',avó:'Neto(a)',bisavô:'Bisneto(a)',bisavó:'Bisneto(a)',tio:'Sobrinho(a)',tia:'Sobrinho(a)',sobrinho:'Tio(a)',sobrinha:'Tio(a)',irmão:'Irmão(ã)',irmã:'Irmão(ã)',primo:'Primo(a)',prima:'Primo(a)',marido:'Cônjuge',esposa:'Cônjuge',bisneto:'Bisavô/Bisavó',bisneta:'Bisavô/Bisavó'};
-const CAT={pai:'P',mãe:'P',filho:'F',filha:'F',neto:'G',neta:'G',avô:'A',avó:'A',bisavô:'B',bisavó:'B',tio:'T',tia:'T',sobrinho:'S',sobrinha:'S',irmão:'I',irmã:'I',primo:'C',prima:'C',marido:'E',esposa:'E',bisneto:'N',bisneta:'N'};
-const DG={pai:1,mãe:1,filho:-1,filha:-1,neto:-2,neta:-2,avô:2,avó:2,bisavô:3,bisavó:3,tio:1,tia:1,sobrinho:-1,sobrinha:-1,irmão:0,irmã:0,primo:0,prima:0,marido:0,esposa:0,bisneto:-3,bisneta:-3};
+const REL=['pai','mãe','filho','filha','genro','nora','neto','neta','bisneto','bisneta','avô','avó','bisavô','bisavó','tio','tia','sobrinho','sobrinha','irmão','irmã','cunhado','cunhada','primo','prima','marido','esposa','sogro','sogra'];
+const LB={pai:'Pai',mãe:'Mãe',filho:'Filho',filha:'Filha',genro:'Genro',nora:'Nora',neto:'Neto',neta:'Neta',avô:'Avô',avó:'Avó',bisavô:'Bisavô',bisavó:'Bisavó',tio:'Tio',tia:'Tia',sobrinho:'Sobrinho',sobrinha:'Sobrinha',irmão:'Irmão',irmã:'Irmã',cunhado:'Cunhado',cunhada:'Cunhada',primo:'Primo',prima:'Prima',marido:'Marido',esposa:'Esposa',bisneto:'Bisneto',bisneta:'Bisneta',sogro:'Sogro',sogra:'Sogra'};
+const INV={pai:'Filho(a)',mãe:'Filho(a)',filho:'Pai/Mãe',filha:'Pai/Mãe',genro:'Sogro(a)',nora:'Sogro(a)',neto:'Avô/Avó',neta:'Avô/Avó',avô:'Neto(a)',avó:'Neto(a)',bisavô:'Bisneto(a)',bisavó:'Bisneto(a)',tio:'Sobrinho(a)',tia:'Sobrinho(a)',sobrinho:'Tio(a)',sobrinha:'Tio(a)',irmão:'Irmão(ã)',irmã:'Irmão(ã)',cunhado:'Cunhado(a)',cunhada:'Cunhado(a)',primo:'Primo(a)',prima:'Primo(a)',marido:'Cônjuge',esposa:'Cônjuge',bisneto:'Bisavô/Bisavó',bisneta:'Bisavô/Bisavó',sogro:'Genro/Nora',sogra:'Genro/Nora'};
+const CAT={pai:'P',mãe:'P',filho:'F',filha:'F',genro:'Q',nora:'Q',neto:'G',neta:'G',avô:'A',avó:'A',bisavô:'B',bisavó:'B',tio:'T',tia:'T',sobrinho:'S',sobrinha:'S',irmão:'I',irmã:'I',cunhado:'U',cunhada:'U',primo:'C',prima:'C',marido:'E',esposa:'E',bisneto:'N',bisneta:'N',sogro:'O',sogra:'O'};
+const DG={pai:1,mãe:1,filho:-1,filha:-1,genro:-1,nora:-1,neto:-2,neta:-2,avô:2,avó:2,bisavô:3,bisavó:3,tio:1,tia:1,sobrinho:-1,sobrinha:-1,irmão:0,irmã:0,cunhado:0,cunhada:0,primo:0,prima:0,marido:0,esposa:0,bisneto:-3,bisneta:-3,sogro:1,sogra:1};
 let M=[],HP=new Set(),LOAD=true,LAST='',KEEP=false,S=null,ED=null,FOC=null;
 try{S=JSON.parse(localStorage.getItem('kS'));if(S&&S.exp<Date.now())S=null}catch(e){}
 const setS=v=>{S=v;try{v?localStorage.setItem('kS',JSON.stringify(v)):localStorage.removeItem('kS')}catch(e){}};
 const by=id=>M.find(m=>m.id===id),nm=id=>by(id)?.nome||'';
 const PC=()=>[...new Map(M.flatMap(x=>x.rels.filter(r=>CAT[r.t]==='P'||CAT[r.t]==='F').map(r=>CAT[r.t]==='P'?[r.id,x.id]:[x.id,r.id])).map(p=>[p.join('|'),p])).values()];
 const pi=m=>{const p=PC().find(q=>q[1]===m.id);return p?M.findIndex(x=>x.id===p[0]):-1};
-const KB={F:'P',N:'B',G:'A',S:'T'},KD=new Set(['F','N','G','S']);
-const kk=(id,t,inv)=>{const k=CAT[t],c=KB[k]||k;if(c==='I'||c==='C'||c==='E')return id+c;return id+c+(KD.has(k)!==!!inv?'i':'d')};
+const KB={F:'P',N:'B',G:'A',S:'T',Q:'O'},KD=new Set(['F','N','G','S','Q']);
+const kk=(id,t,inv)=>{const k=CAT[t],c=KB[k]||k;if(c==='I'||c==='C'||c==='E'||c==='U')return id+c;return id+c+(KD.has(k)!==!!inv?'i':'d')};
 function rel(m){const o=[],seen=new Set(),add=(id,t,inv)=>{const key=kk(id,t,inv);if(!by(id)||id===m.id||seen.has(key))return;seen.add(key);o.push({id,l:inv?INV[t]:LB[t]})};
 m.rels.forEach(r=>add(r.id,r.t,0));M.forEach(x=>x.rels.forEach(r=>{if(r.id===m.id)add(x.id,r.t,1)}));return o}
 const ph=m=>m.foto?`<img src="${m.foto}" alt="">`:'🌺';
