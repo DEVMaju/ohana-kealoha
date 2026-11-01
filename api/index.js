@@ -4,7 +4,7 @@ const URL_ = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
 const TOK = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
 const ADMIN = process.env.ADMIN_PASSWORD;
 const SECRET = process.env.SESSION_SECRET || crypto.createHash('sha256').update('kealoha|' + ADMIN + '|' + TOK).digest('hex');
-const REL = ['pai', 'mãe', 'filho', 'filha', 'avô', 'avó', 'tio', 'tia', 'irmão', 'irmã', 'primo', 'prima', 'marido', 'esposa'];
+const REL = ['pai', 'mãe', 'filho', 'filha', 'avô', 'avó', 'bisavô', 'bisavó', 'tio', 'tia', 'irmão', 'irmã', 'primo', 'prima', 'marido', 'esposa', 'bisneto', 'bisneta'];
 const R = async (...c) => {
   const r = await fetch(URL_, { method: 'POST', headers: { Authorization: 'Bearer ' + TOK }, body: JSON.stringify(c) });
   const j = await r.json(); if (j.error) throw new Error(j.error); return j.result;
